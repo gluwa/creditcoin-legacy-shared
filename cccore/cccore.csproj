@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    
+    <AssemblyName>cccore</AssemblyName>
+    <RootNamespace>cccore</RootNamespace>
+    <PackageId>cccore</PackageId>
+    <PackageTags>Gluwa</PackageTags>
+    <Authors>Gluwa</Authors>
+    <Company>Gluwa</Company>
+    <Description>Creditcoin core</Description>
+    <Version Condition=" '$(BUILD_BUILDNUMBER)' == '' ">1.0.1.0</Version>
+    <Version Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</Version>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <RuntimeIdentifiers>win-x64;ubuntu-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="plugins\**" />
+    <EmbeddedResource Remove="plugins\**" />
+    <None Remove="plugins\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetMQ" Version="4.0.0.207" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.6.7" />
+    <PackageReference Include="Sawtooth.Sdk" Version="1.0.14" />
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
+    <PackageReference Include="ccplugin" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.dev.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
