@@ -39,4 +39,31 @@
     <PackageReference Include="System.Security.Principal.Windows" Version="4.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="bin\$(Configuration)\$(TargetFramework)\cbitcoin.dll">
+      <Link>cbitcoin.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </None>
+    <None Include="bin\$(Configuration)\$(TargetFramework)\cerc20.dll">
+      <Link>cerc20.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </None>
+    <None Include="bin\$(Configuration)\$(TargetFramework)\cethereum.dll">
+      <Link>cethereum.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </None>
+    <None Include="bin\$(Configuration)\$(TargetFramework)\cethless.dll">
+      <Link>cethless.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </None>
+  </ItemGroup>
+  
 </Project>
