@@ -34,7 +34,7 @@ namespace ccplugin
     {
         private Signer mSigner;
         private const string CREDITCOIN = "CREDITCOIN";
-        private const string version = "1.6";
+        private const string version = "1.7";
         private const string pluginsFolderName = "plugins";
         private static string prefix = CREDITCOIN.ToByteArray().ToSha512().ToHexString().Substring(0, 6);
         private const int SKIP_TO_GET_60 = 512 / 8 * 2 - 60; // 512 - hash size, 8 - bits in byte, 2 - hex digits for byte, 60 - merkle address length (70) without namespace length (6) and prexix length (4)
@@ -88,7 +88,33 @@ namespace ccplugin
             var encoder = new Encoder(settings, mSigner.GetPrivateKey());
 
             msg = null;
-            return encoder.EncodeSingleTransaction(map.EncodeToBytes());
+
+            // Short Term Fix:
+            // Inconsistencies with batch submission were found when certain
+            // Nonces were generated when building a Transaction using the
+            // Sawtooth C# SDK. Certain generated Nonces caused the signatures
+            // to be generated with 63 bytes instead of 64 bytes (128 Hex String).
+            //
+            // This short term fix will force the regeneration of the Transaction
+            // Nonce by rebuilding the transaction if any of the Header Signatures
+            // have an invalid length.
+            var tx = encoder.CreateTransaction(map.EncodeToBytes());
+            var batch = encoder.CreateBatch(tx);
+
+            while (tx.HeaderSignature.Length < 128)
+            {
+                Console.WriteLine("Failed to generate valid tx header signature - regenerating");
+                tx = encoder.CreateTransaction(map.EncodeToBytes());
+            }
+
+            while (batch.HeaderSignature.Length < 128)
+            {
+                Console.WriteLine("Failed to generate valid batch header signature - regenerating");
+                tx = encoder.CreateTransaction(map.EncodeToBytes());
+                batch = encoder.CreateBatch(tx);
+            }
+
+            return encoder.Encode(batch);
         }
 
         public static string getSighash(Signer signer)
