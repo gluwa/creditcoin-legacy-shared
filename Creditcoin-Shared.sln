@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cerc20", "plugins\erc20\cer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cethless", "plugins\ethless\cethless.csproj", "{6BFD289B-FB97-49C9-84B2-46D93A74DD27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cluniverse", "cluniverse\cluniverse.csproj", "{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,14 @@ Global
 		{6BFD289B-FB97-49C9-84B2-46D93A74DD27}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6BFD289B-FB97-49C9-84B2-46D93A74DD27}.Release|x64.ActiveCfg = Release|Any CPU
 		{6BFD289B-FB97-49C9-84B2-46D93A74DD27}.Release|x64.Build.0 = Release|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Debug|x64.Build.0 = Debug|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Release|x64.ActiveCfg = Release|Any CPU
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +103,7 @@ Global
 		{31A0FE7F-E68C-456C-B546-59B757F53DF5} = {A3E0FFB0-EF89-4CD3-95E1-DB04FF935788}
 		{55F53A49-51C0-4790-BD29-E91E3476D09B} = {A3E0FFB0-EF89-4CD3-95E1-DB04FF935788}
 		{6BFD289B-FB97-49C9-84B2-46D93A74DD27} = {A3E0FFB0-EF89-4CD3-95E1-DB04FF935788}
+		{C2D3BA8B-DB21-4DBE-B71D-DB8FD27E524E} = {A3E0FFB0-EF89-4CD3-95E1-DB04FF935788}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {697B54D6-3312-44FE-82D0-B0F7AD08E6E0}
