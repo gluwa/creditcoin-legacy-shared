@@ -61,11 +61,25 @@ namespace ccplugin
                 Array.Clear(signatureBytes, SIG_SIZE / 2, lengthDiff);
                 // Shift the rightmost byte of first half to second until the signature is valid.
                 var publicKey = GetPublicKey();
-                for (var i = 1; i <= lengthDiff && !Signer.Verify(digest, signatureBytes, publicKey); i++)
+                for (var i = 1; i <= lengthDiff + 1; i++)
                 {
-                    signatureBytes[SIG_SIZE / 2 + lengthDiff - i] = signatureBytes[SIG_SIZE / 2 - 1];
-                    Array.Copy(signatureBytes, 0, signatureBytes, 1, SIG_SIZE / 2 - 1);
-                    signatureBytes[0] = (byte)0;
+                    if (Signer.Verify(digest, signatureBytes, publicKey))
+                    {
+                        break;
+                    }
+                    else if (i > lengthDiff) // If all combinations are invalid.
+                    {
+                        // Extract the original signature.
+                        var signatureBase64 = System.Convert.ToBase64String(signatureBytes, lengthDiff,
+                            signatureBytes.Length - lengthDiff);
+                        throw new InvalidOperationException("Unable to create valid signature: " + signatureBase64);
+                    }
+                    else
+                    {
+                        signatureBytes[SIG_SIZE / 2 + lengthDiff - i] = signatureBytes[SIG_SIZE / 2 - 1];
+                        Array.Copy(signatureBytes, 0, signatureBytes, 1, SIG_SIZE / 2 - 1);
+                        signatureBytes[0] = (byte)0;
+                    }
                 }
             }
 
