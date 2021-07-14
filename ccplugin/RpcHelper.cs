@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json.Linq;
 
 namespace ccplugin
@@ -31,6 +32,7 @@ namespace ccplugin
         private const string STATUS = "status";
         private const string ID = "id";
         private const string TRANSACTIONS = "transactions";
+        private const string INVALID_TRANSACTIONS = "invalid_transactions";
         private const string HEADER_SIGNATURE = "header_signature";
         private const string ERROR = "error";
         private const string MESSAGE = "message";
@@ -113,11 +115,38 @@ namespace ccplugin
                     var status = (string)obj[STATUS];
                     if (status.Equals("INVALID"))
                     {
-                        return "Error: request rejected";
+                        if (obj.TryGetValue(INVALID_TRANSACTIONS, out JToken invalidTransactions))
+                        {
+                            var invalidTransactionsArray = (JArray)invalidTransactions;
+                            if (invalidTransactionsArray.Count == 1)
+                            {
+                                StringBuilder msgBuilder = new StringBuilder();
+                                msgBuilder.AppendLine("Error: request rejected:");
+                                var txObj = (JObject)invalidTransactionsArray[0];
+                                if (txid && txObj.TryGetValue(ID, out JToken invalidTxId))
+                                {
+                                    msgBuilder.AppendLine("txid: " + (string)invalidTxId);
+                                }
+                                if (txObj.TryGetValue(MESSAGE, out JToken message))
+                                {
+                                    msgBuilder.AppendLine("message: " + (string)message);
+                                }
+                                return msgBuilder.ToString();
+                            }
+                        }
+                        if (obj.ContainsKey(ID))
+                        {
+                            return "Error: request rejected for batch: " + (string)obj[ID];
+                        }
+                        return "Error: request rejected: batch id missing in " + json;
                     }
                     else if (status.Equals("UNKNOWN"))
                     {
-                        return "Unknown batch ID";
+                        if (obj.ContainsKey(ID))
+                        {
+                            return "Unknown batch id: " + (string)obj[ID];
+                        }
+                        return "Error: batch id missing in " + json;
                     }
                     else if (status.Equals("COMMITTED"))
                     {
