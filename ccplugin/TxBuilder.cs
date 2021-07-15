@@ -85,7 +85,8 @@ namespace ccplugin
             };
             settings.Inputs.Add(prefix);
             settings.Outputs.Add(prefix);
-            var encoder = new Encoder(settings, mSigner.GetPrivateKey());
+            // TODO: Remove wrapper class after Sawtooth SDK bugfix.
+            var encoder = new Encoder(settings, new SafeSignerWrapper(mSigner));
 
             msg = null;
             return encoder.EncodeSingleTransaction(map.EncodeToBytes());
