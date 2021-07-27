@@ -534,7 +534,7 @@ namespace cccore
                             content.Headers.Add("Content-Type", "application/octet-stream");
 
                             msg = RpcHelper.CompleteBatch(httpClient, creditcoinUrl, "batches", content, txid, out link);
-                            Debug.Assert(msg != null || msg == null && link != null);
+                            // Debug.Assert(msg != null || msg == null && link != null);
                             if (msg == null)
                                 return null;
                             ret.Add(msg);
