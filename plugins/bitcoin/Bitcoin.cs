@@ -32,16 +32,6 @@ namespace cbitcoin
     {
         private const string name = "bitcoin";
 
-        private const string STATE = "s";
-        private const string NEW = "n";
-        private const string FOUNDED = "f";
-        private const string SOURCE_LEDGER = "sl";
-        private const string SOURCE_ID = "si";
-        private const string SOURCE_AMOUNT = "sa";
-        private const string DESTINATION_LEDGER = "dl";
-        private const string DESTINATION_ID = "di";
-        private const string DESTINATION_AMOUNT = "da";
-
         private static int mConfirmationsExpected = 6;
 
         public bool Run(bool txid, IConfiguration cfg, string secretOverride, HttpClient httpClient, ITxBuilder txBuilder, ref string progressToken, string url, string[] command, out bool inProgress, out string msg, out string link)
