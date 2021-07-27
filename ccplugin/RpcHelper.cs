@@ -150,32 +150,29 @@ namespace ccplugin
                     }
                     else if (status.Equals("COMMITTED"))
                     {
-                        if (txid)
+                        if (txid && obj.ContainsKey(ID))
                         {
-                            if (obj.ContainsKey(ID))
+                            var id = (string)obj[ID];
+                            string url = $"{host}/batches?id={id}";
+                            using (var batchResponseMessage = httpClient.GetAsync(url).Result)
                             {
-                                var id = (string)obj[ID];
-                                string url = $"{host}/batches?id={id}";
-                                using (var batchResponseMessage = httpClient.GetAsync(url).Result)
+                                json = batchResponseMessage.Content.ReadAsStringAsync().Result;
+                                response = JObject.Parse(json);
+                                if (response.ContainsKey(DATA))
                                 {
-                                    json = batchResponseMessage.Content.ReadAsStringAsync().Result;
-                                    response = JObject.Parse(json);
-                                    if (response.ContainsKey(DATA))
+                                    data = (JArray)response[DATA];
+                                    if (data.Count == 1)
                                     {
-                                        data = (JArray)response[DATA];
-                                        if (data.Count == 1)
+                                        obj = (JObject)data[0];
+                                        if (obj.ContainsKey(TRANSACTIONS))
                                         {
-                                            obj = (JObject)data[0];
-                                            if (obj.ContainsKey(TRANSACTIONS))
+                                            var transactions = (JArray)obj[TRANSACTIONS];
+                                            if (transactions.Count == 1)
                                             {
-                                                var transactions = (JArray)obj[TRANSACTIONS];
-                                                if (transactions.Count == 1)
+                                                var transaction = (JObject)transactions[0];
+                                                if (transaction.ContainsKey(HEADER_SIGNATURE))
                                                 {
-                                                    var transaction = (JObject)transactions[0];
-                                                    if (transaction.ContainsKey(HEADER_SIGNATURE))
-                                                    {
-                                                        return "Success, txid: " + (string)transaction[HEADER_SIGNATURE];
-                                                    }
+                                                    return "Success, txid: " + (string)transaction[HEADER_SIGNATURE];
                                                 }
                                             }
                                         }

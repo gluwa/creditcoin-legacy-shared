@@ -70,6 +70,7 @@ namespace ccplugin
                     {
                         if (!(type == null || type.IsInterface || type.IsAbstract))
                         {
+                            // NOSONAR
                             if (type.GetInterface(pluginType.FullName) != null)
                             {
                                 pluginTypes.Add(type);
