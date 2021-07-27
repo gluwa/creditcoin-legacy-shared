@@ -32,7 +32,7 @@ namespace cbitcoin
     {
         private const string name = "bitcoin";
 
-        private static int mConfirmationsExpected = 6;
+        private int mConfirmationsExpected = 6;
 
         public bool Run(bool txid, IConfiguration cfg, string secretOverride, HttpClient httpClient, ITxBuilder txBuilder, ref string progressToken, string url, string[] command, out bool inProgress, out string msg, out string link)
         {
