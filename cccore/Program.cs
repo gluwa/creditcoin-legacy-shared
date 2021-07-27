@@ -41,20 +41,20 @@ namespace cccore
 
         public class AskAndBidOrders
         {
-            public Dictionary<string, AskOrder> askOrders;
-            public Dictionary<string, BidOrder> bidOrders;
+            public Dictionary<string, AskOrder> askOrders { get; set; }
+            public Dictionary<string, BidOrder> bidOrders { get; set; }
         }
 
         public class OffersAndAskAndBidOrders
         {
-            public Dictionary<string, Offer> offers;
-            public Dictionary<string, AskOrder> askOrders;
-            public Dictionary<string, BidOrder> bidOrders;
+            public Dictionary<string, Offer> offers { get; set; }
+            public Dictionary<string, AskOrder> askOrders { get; set; }
+            public Dictionary<string, BidOrder> bidOrders { get; set; }
         }
 
         public class DealOrders
         {
-            public Dictionary<string, DealOrder> dealOrders;
+            public Dictionary<string, DealOrder> dealOrders { get; set; }
         }
 
         public static string Run(HttpClient httpClient, string creditcoinUrl, string link, bool txid)
