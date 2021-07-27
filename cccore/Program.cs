@@ -728,7 +728,7 @@ namespace cccore
         public static void filter(HttpClient httpClient, string creditcoinUrl, List<string> ret, string prefix, Action<string, byte[]> lister)
         {
             var url = $"{creditcoinUrl}/state?limit=25000&address={prefix}";
-            for (; ; )
+            while (true)
             {
                 using (HttpResponseMessage responseMessage = httpClient.GetAsync(url).Result)
                 {
