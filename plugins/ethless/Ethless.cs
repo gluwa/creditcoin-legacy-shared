@@ -33,20 +33,6 @@ namespace cethless
     {
         private const string name = "ethless";
 
-        private const string STATE = "s";
-        private const string NEW = "n";
-        private const string FOUNDED = "f";
-        private const string SOURCE_LEDGER = "sl";
-        private const string SOURCE_ID = "si";
-        private const string SOURCE_AMOUNT = "sa";
-        private const string DESTINATION_LEDGER = "dl";
-        private const string DESTINATION_ID = "di";
-        private const string DESTINATION_AMOUNT = "da";
-
-        private const string ERROR = "error";
-        private const string DATA = "data";
-        private const string MESSAGE = "message";
-
         private string ethlessAbi = "[{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_fee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_nonce\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"_sig\",\"type\":\"bytes\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"success\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
 
         private int mConfirmationsExpected = 12;
