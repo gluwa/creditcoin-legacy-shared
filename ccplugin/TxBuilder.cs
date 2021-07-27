@@ -32,7 +32,7 @@ namespace ccplugin
 {
     public class TxBuilder : ITxBuilder
     {
-        private Signer mSigner;
+        private readonly Signer mSigner;
         private const string CREDITCOIN = "CREDITCOIN";
         private const string version = "1.6";
         private const string pluginsFolderName = "plugins";

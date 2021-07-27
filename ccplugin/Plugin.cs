@@ -29,7 +29,7 @@ namespace ccplugin
 {
     public class Loader<Plugin>
     {
-        private Dictionary<string, Plugin> plugins = new Dictionary<string, Plugin>();
+        private readonly Dictionary<string, Plugin> plugins = new Dictionary<string, Plugin>();
         private const string dlls = "*.dll";
 
         public void Load(string folder, List<string> msgs)
