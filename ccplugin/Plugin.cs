@@ -68,11 +68,7 @@ namespace ccplugin
 
                     foreach (Type type in types)
                     {
-                        if (type == null || type.IsInterface || type.IsAbstract)
-                        {
-                            continue;
-                        }
-                        else
+                        if (!(type == null || type.IsInterface || type.IsAbstract))
                         {
                             if (type.GetInterface(pluginType.FullName) != null)
                             {
