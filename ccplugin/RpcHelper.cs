@@ -252,7 +252,7 @@ namespace ccplugin
         {
             if (input.Length % 2 != 0)
             {
-                throw new Exception("Invalid hex string");
+                throw new ArgumentException("Invalid hex string");
             }
             var outputLength = input.Length / 2;
             var output = new byte[outputLength];

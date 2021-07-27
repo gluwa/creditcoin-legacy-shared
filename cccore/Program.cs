@@ -94,7 +94,7 @@ namespace cccore
                         BigInteger num;
                         if (!BigInteger.TryParse(command[0], out num))
                         {
-                            throw new Exception("Invalid numerics");
+                            throw new ArgumentException("Invalid numerics");
                         }
                         headIdx -= num;
                     }
@@ -105,7 +105,7 @@ namespace cccore
                 {
                     if (command.Length > 2)
                     {
-                        throw new Exception("1 or 2 parameters expected");
+                        throw new ArgumentException("1 or 2 parameters expected");
                     }
                     string id = null;
                     if (command.Length == 2)
@@ -230,7 +230,7 @@ namespace cccore
                     bool isBalance = command[0].Equals("balance", StringComparison.OrdinalIgnoreCase);
                     BigInteger headIdx = isBalance? 0: GetHeadIdx(httpClient, creditcoinUrl);
 
-                    if (command.Length <= 1) throw new Exception("1 or more parameters expected");
+                    if (command.Length <= 1) throw new ArgumentException("1 or more parameters expected");
                     string sighash;
                     if (command[1].Equals("0"))
                     {
@@ -243,7 +243,7 @@ namespace cccore
 
                     if (isBalance)
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
                         string prefix = RpcHelper.creditCoinNamespace + RpcHelper.walletPrefix;
                         string id = prefix + sighash;
                         string amount = "0";
@@ -259,7 +259,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("address", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 5) throw new Exception("5 parameters expected");
+                        if (command.Length != 5) throw new ArgumentException("5 parameters expected");
                         var blockchain = command[2].ToLower();
                         var addr = command[3];
                         var network = command[4].ToLower();
@@ -274,7 +274,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("matchingOrders", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         var askOrders = new Dictionary<string, AskOrder>();
                         filter(httpClient, creditcoinUrl, ret, RpcHelper.creditCoinNamespace + RpcHelper.askOrderPrefix, (string objid, byte[] protobuf) =>
@@ -283,7 +283,7 @@ namespace cccore
                             BigInteger block;
                             if (!BigInteger.TryParse(askOrder.Block, out block))
                             {
-                                throw new Exception("Invalid numerics");
+                                throw new ArgumentException("Invalid numerics");
                             }
                             if (block + askOrder.Expiration > headIdx)
                             {
@@ -297,7 +297,7 @@ namespace cccore
                             BigInteger block;
                             if (!BigInteger.TryParse(bidOrder.Block, out block))
                             {
-                                throw new Exception("Invalid numerics");
+                                throw new ArgumentException("Invalid numerics");
                             }
                             if (block + bidOrder.Expiration > headIdx)
                             {
@@ -315,7 +315,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("currentOffers", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         var bidOrders = new Dictionary<string, BidOrder>();
                         filter(httpClient, creditcoinUrl, ret, RpcHelper.creditCoinNamespace + RpcHelper.bidOrderPrefix, (string objid, byte[] protobuf) =>
@@ -333,7 +333,7 @@ namespace cccore
                                 BigInteger block;
                                 if (!BigInteger.TryParse(offer.Block, out block))
                                 {
-                                    throw new Exception("Invalid numerics");
+                                    throw new ArgumentException("Invalid numerics");
                                 }
                                 if (block + offer.Expiration > headIdx)
                                 {
@@ -361,7 +361,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("creditHistory", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         filterDeals(httpClient, creditcoinUrl, ret, null, sighash, (string dealAddress, DealOrder dealOrder) =>
                         {
@@ -375,7 +375,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("newDeals", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         var dealOrders = new Dictionary<string, DealOrder>();
                         filterDeals(httpClient, creditcoinUrl, ret, sighash, null, (string dealAddress, DealOrder dealOrder) =>
@@ -385,7 +385,7 @@ namespace cccore
                                 BigInteger block;
                                 if (!BigInteger.TryParse(dealOrder.Block, out block))
                                 {
-                                    throw new Exception("Invalid numerics");
+                                    throw new ArgumentException("Invalid numerics");
                                 }
                                 if (block + dealOrder.Expiration > headIdx)
                                 {
@@ -404,7 +404,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("transfer", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 3) throw new Exception("3 parameters expected");
+                        if (command.Length != 3) throw new ArgumentException("3 parameters expected");
                         var orderId = command[2];
 
                         filter(httpClient, creditcoinUrl, ret, RpcHelper.creditCoinNamespace + RpcHelper.transferPrefix, (string objid, byte[] protobuf) =>
@@ -416,7 +416,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("currentLoans", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         var dealOrders = new Dictionary<string, DealOrder>();
                         filterDeals(httpClient, creditcoinUrl, ret, null, sighash, (string dealAddress, DealOrder dealOrder) =>
@@ -437,7 +437,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("lockedLoans", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         var dealOrders = new Dictionary<string, DealOrder>();
                         filterDeals(httpClient, creditcoinUrl, ret, null, sighash, (string dealAddress, DealOrder dealOrder) =>
@@ -458,7 +458,7 @@ namespace cccore
                     }
                     else if (command[0].Equals("newRepaymentOrders", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (command.Length != 2) throw new Exception("2 parameters expected");
+                        if (command.Length != 2) throw new ArgumentException("2 parameters expected");
 
                         var addresses = new Dictionary<string, Address>();
                         filter(httpClient, creditcoinUrl, ret, RpcHelper.creditCoinNamespace + RpcHelper.addressPrefix, (string objid, byte[] protobuf) =>
@@ -484,7 +484,7 @@ namespace cccore
                                 BigInteger block;
                                 if (!BigInteger.TryParse(repaymentOrder.Block, out block))
                                 {
-                                    throw new Exception("Invalid numerics");
+                                    throw new ArgumentException("Invalid numerics");
                                 }
                                 if (block + repaymentOrder.Expiration > headIdx)
                                 {
@@ -596,12 +596,12 @@ namespace cccore
             Debug.Assert(head != null && msg == null || head == null && msg != null);
             if (head == null)
             {
-                throw new Exception(msg);
+                throw new ArgumentException(msg);
             }
             BigInteger headIdx;
             if (!BigInteger.TryParse(head, out headIdx))
             {
-                throw new Exception("Invalid numerics");
+                throw new ArgumentException("Invalid numerics");
             }
 
             return headIdx;
@@ -619,14 +619,14 @@ namespace cccore
             if (str.StartsWith('"'))
             {
                 if (!str.EndsWith('"'))
-                    throw new Exception($"Unexpected quoted string, no end quote: {str}");
+                    throw new ArgumentException($"Unexpected quoted string, no end quote: {str}");
                 str = str.Substring(1, str.Length - 1);
                 if (str.IndexOf(' ') == -1 && str.IndexOf('"') == -1)
-                    throw new Exception($"Unexpected quoted string, contains no spaces or quotes: {str}");
+                    throw new ArgumentException($"Unexpected quoted string, contains no spaces or quotes: {str}");
                 return str.Replace("\\\"", "\"");
             }
             if (str.IndexOf(' ') != -1 || str.IndexOf('"') != -1)
-                throw new Exception($"Unexpected quoted string, must have been in quotes, but is not: {str}");
+                throw new ArgumentException($"Unexpected quoted string, must have been in quotes, but is not: {str}");
             return str;
         }
 
@@ -649,7 +649,7 @@ namespace cccore
             string signerHexStr = secret ?? config["signer"];
             if (string.IsNullOrWhiteSpace(signerHexStr))
             {
-                throw new Exception("Signer is not configured");
+                throw new ArgumentException("Signer is not configured");
             }
             try
             {
@@ -657,7 +657,7 @@ namespace cccore
             }
             catch (Exception x)
             {
-                throw new Exception("Failed to initialize signer: " + x.Message);
+                throw new ArgumentException("Failed to initialize signer: " + x.Message);
             }
         }
 
