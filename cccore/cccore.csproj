@@ -16,8 +16,6 @@
     <Version Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</Version>
     <AssemblyVersion Condition=" '$(BUILD_BUILDNUMBER)' == '' ">1.0.0.0</AssemblyVersion>
     <AssemblyVersion Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</AssemblyVersion>
-    <FileVersion Condition=" '$(BUILD_BUILDNUMBER)' == '' ">1.0.0.0</FileVersion>
-    <FileVersion Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</FileVersion>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <RuntimeIdentifiers>win-x64;ubuntu-x64</RuntimeIdentifiers>
   </PropertyGroup>
