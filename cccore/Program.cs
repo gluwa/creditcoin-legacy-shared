@@ -19,6 +19,7 @@
 
 using ccplugin;
 using Microsoft.Extensions.Configuration;
+using Sawtooth.Sdk;
 using Sawtooth.Sdk.Client;
 using System;
 using System.Net.Http;
@@ -228,7 +229,7 @@ namespace cccore
                 else if (action.Equals("show"))
                 {
                     bool isBalance = command[0].Equals("balance", StringComparison.OrdinalIgnoreCase);
-                    BigInteger headIdx = isBalance? 0: GetHeadIdx(httpClient, creditcoinUrl);
+                    BigInteger headIdx = isBalance ? 0: GetHeadIdx(httpClient, creditcoinUrl);
 
                     if (command.Length <= 1) throw new Exception("1 or more parameters expected");
                     string sighash;
@@ -537,6 +538,24 @@ namespace cccore
                             Debug.Assert(msg != null || msg == null && link != null);
                             if (msg == null)
                                 return null;
+                            if (command[0].Equals("RegisterAddress", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                var blockchain = command[1];
+                                var addr = command[2].ToLowerInvariant();
+                                var network = command[3];
+                                var addressHash = (blockchain + addr + network).ToByteArray().ToSha512().ToHexString();
+                                var stateAddress = RpcHelper.creditCoinNamespace + RpcHelper.addressPrefix;
+                                stateAddress += addressHash.Substring(addressHash.Length - 60);
+                                var sighash = TxBuilder.getSighash(signer);
+                                if (TryFetchProtobuf(httpClient, creditcoinUrl, ret, stateAddress, out byte[] protobuf))
+                                {
+                                    Address address = Address.Parser.ParseFrom(protobuf);
+                                    if (address.Sighash == sighash && address.Blockchain == blockchain && address.Value == addr && address.Network == network)
+                                    {
+                                        ret.Add(stateAddress);
+                                    }
+                                }
+                            }
                             ret.Add(msg);
                         }
                     }
@@ -762,6 +781,36 @@ namespace cccore
                     }
                 }
             }
+        }
+
+        public static bool TryFetchProtobuf(HttpClient httpClient, string creditcoinUrl, List<string> ret, string address, out byte[] protobuf)
+        {
+            var url = $"{creditcoinUrl}/state/{address}";
+            using (HttpResponseMessage responseMessage = httpClient.GetAsync(url).Result)
+            {
+                if (!responseMessage.IsSuccessStatusCode)
+                {
+                    ret.Add($"Error: HTTP Response: {responseMessage.StatusCode}");
+                }
+                else
+                {
+                    var json = responseMessage.Content.ReadAsStringAsync().Result;
+                    var response = JObject.Parse(json);
+                    if (response.ContainsKey(ERROR))
+                    {
+                        ret.Add($"Error: {(string)response[ERROR][MESSAGE]}");
+                    }
+                    else
+                    {
+                        Debug.Assert(response.ContainsKey(DATA));
+                        var data = (string)response[DATA];
+                        protobuf = Convert.FromBase64String(data);
+                        return true;
+                    }
+                }
+            }
+            protobuf = null;
+            return false;
         }
     }
 }
