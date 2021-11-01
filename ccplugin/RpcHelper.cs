@@ -39,16 +39,16 @@ namespace ccplugin
         private const string HEADER = "header";
         private const string BLOCK_NUM = "block_num";
 
-        public const string creditCoinNamespace = "8a1a04";
-        public const string settingNamespace = "000000";
-        public const string walletPrefix = "0000";
-        public const string addressPrefix = "1000";
-        public const string transferPrefix = "2000";
-        public const string askOrderPrefix = "3000";
-        public const string bidOrderPrefix = "4000";
-        public const string dealOrderPrefix = "5000";
-        public const string repaymentOrderPrefix = "6000";
-        public const string offerPrefix = "7000";
+        public static readonly string creditCoinNamespace = "8a1a04";
+        public static readonly string settingNamespace = "000000";
+        public static readonly string walletPrefix = "0000";
+        public static readonly string addressPrefix = "1000";
+        public static readonly string transferPrefix = "2000";
+        public static readonly string askOrderPrefix = "3000";
+        public static readonly string bidOrderPrefix = "4000";
+        public static readonly string dealOrderPrefix = "5000";
+        public static readonly string repaymentOrderPrefix = "6000";
+        public static readonly string offerPrefix = "7000";
 
         public static string CompleteBatch(HttpClient httpClient, string host, string path, ByteArrayContent content, bool txid, out string continuation)
         {
