@@ -19,3 +19,6 @@ Tags are created regularly from release branches to indicate new official, stabl
 See [Coding-Standards/C# Coding Standards.md](https://github.com/gluwa/Coding-Standards/blob/main/C%23%20Coding%20Standards.md) for our coding standards.
 
 Issues and suggestions can be shared here.
+
+# Security Policy
+See [SECURITY.md](SECURITY.md) for our security policy.

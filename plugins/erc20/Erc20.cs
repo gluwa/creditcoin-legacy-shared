@@ -32,22 +32,8 @@ namespace cerc20
     {
         private const string name = "erc20";
 
-        private const string STATE = "s";
-        private const string NEW = "n";
-        private const string FOUNDED = "f";
-        private const string SOURCE_LEDGER = "sl";
-        private const string SOURCE_ID = "si";
-        private const string SOURCE_AMOUNT = "sa";
-        private const string DESTINATION_LEDGER = "dl";
-        private const string DESTINATION_ID = "di";
-        private const string DESTINATION_AMOUNT = "da";
-
-        private const string ERROR = "error";
-        private const string DATA = "data";
-        private const string MESSAGE = "message";
-
-        private string erc20TransferAbi = "[{\"constant\":true,\"inputs\":[],\"name\":\"getErc20\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"erc20\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"ccid\",\"type\":\"string\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"success\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
-        private string erc20Abi = "[{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"success\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
+        private readonly string erc20TransferAbi = "[{\"constant\":true,\"inputs\":[],\"name\":\"getErc20\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"erc20\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"ccid\",\"type\":\"string\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"success\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
+        private readonly string erc20Abi = "[{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"success\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
 
         private int mConfirmationsExpected = 12;
 

@@ -29,7 +29,7 @@ namespace ccplugin
 {
     public class Loader<Plugin>
     {
-        private Dictionary<string, Plugin> plugins = new Dictionary<string, Plugin>();
+        private readonly Dictionary<string, Plugin> plugins = new Dictionary<string, Plugin>();
         private const string dlls = "*.dll";
 
         public void Load(string folder, List<string> msgs)
@@ -68,12 +68,9 @@ namespace ccplugin
 
                     foreach (Type type in types)
                     {
-                        if (type == null || type.IsInterface || type.IsAbstract)
+                        if (!(type == null || type.IsInterface || type.IsAbstract))
                         {
-                            continue;
-                        }
-                        else
-                        {
+                            // NOSONAR
                             if (type.GetInterface(pluginType.FullName) != null)
                             {
                                 pluginTypes.Add(type);

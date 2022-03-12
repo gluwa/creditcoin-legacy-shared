@@ -39,16 +39,16 @@ namespace ccplugin
         private const string HEADER = "header";
         private const string BLOCK_NUM = "block_num";
 
-        public static string creditCoinNamespace = "8a1a04";
-        public static string settingNamespace = "000000";
-        public static string walletPrefix = "0000";
-        public static string addressPrefix = "1000";
-        public static string transferPrefix = "2000";
-        public static string askOrderPrefix = "3000";
-        public static string bidOrderPrefix = "4000";
-        public static string dealOrderPrefix = "5000";
-        public static string repaymentOrderPrefix = "6000";
-        public static string offerPrefix = "7000";
+        public static readonly string creditCoinNamespace = "8a1a04";
+        public static readonly string settingNamespace = "000000";
+        public static readonly string walletPrefix = "0000";
+        public static readonly string addressPrefix = "1000";
+        public static readonly string transferPrefix = "2000";
+        public static readonly string askOrderPrefix = "3000";
+        public static readonly string bidOrderPrefix = "4000";
+        public static readonly string dealOrderPrefix = "5000";
+        public static readonly string repaymentOrderPrefix = "6000";
+        public static readonly string offerPrefix = "7000";
 
         public static string CompleteBatch(HttpClient httpClient, string host, string path, ByteArrayContent content, bool txid, out string continuation)
         {
@@ -150,32 +150,29 @@ namespace ccplugin
                     }
                     else if (status.Equals("COMMITTED"))
                     {
-                        if (txid)
+                        if (txid && obj.ContainsKey(ID))
                         {
-                            if (obj.ContainsKey(ID))
+                            var id = (string)obj[ID];
+                            string url = $"{host}/batches?id={id}";
+                            using (var batchResponseMessage = httpClient.GetAsync(url).Result)
                             {
-                                var id = (string)obj[ID];
-                                string url = $"{host}/batches?id={id}";
-                                using (var batchResponseMessage = httpClient.GetAsync(url).Result)
+                                json = batchResponseMessage.Content.ReadAsStringAsync().Result;
+                                response = JObject.Parse(json);
+                                if (response.ContainsKey(DATA))
                                 {
-                                    json = batchResponseMessage.Content.ReadAsStringAsync().Result;
-                                    response = JObject.Parse(json);
-                                    if (response.ContainsKey(DATA))
+                                    data = (JArray)response[DATA];
+                                    if (data.Count == 1)
                                     {
-                                        data = (JArray)response[DATA];
-                                        if (data.Count == 1)
+                                        obj = (JObject)data[0];
+                                        if (obj.ContainsKey(TRANSACTIONS))
                                         {
-                                            obj = (JObject)data[0];
-                                            if (obj.ContainsKey(TRANSACTIONS))
+                                            var transactions = (JArray)obj[TRANSACTIONS];
+                                            if (transactions.Count == 1)
                                             {
-                                                var transactions = (JArray)obj[TRANSACTIONS];
-                                                if (transactions.Count == 1)
+                                                var transaction = (JObject)transactions[0];
+                                                if (transaction.ContainsKey(HEADER_SIGNATURE))
                                                 {
-                                                    var transaction = (JObject)transactions[0];
-                                                    if (transaction.ContainsKey(HEADER_SIGNATURE))
-                                                    {
-                                                        return "Success, txid: " + (string)transaction[HEADER_SIGNATURE];
-                                                    }
+                                                    return "Success, txid: " + (string)transaction[HEADER_SIGNATURE];
                                                 }
                                             }
                                         }
@@ -252,7 +249,7 @@ namespace ccplugin
         {
             if (input.Length % 2 != 0)
             {
-                throw new Exception("Invalid hex string");
+                throw new ArgumentException("Invalid hex string");
             }
             var outputLength = input.Length / 2;
             var output = new byte[outputLength];
